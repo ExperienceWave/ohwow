@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ohwow — a business design practice</title>
+<meta name="description" content="ohwow is a business design practice. Brand, customers, and people delivering the same one experience.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23000000'/%3E%3C/svg%3E">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='2' height='2' fill='%23000'/%3E%3Crect x='2' y='2' width='2' height='2' fill='%23000'/%3E%3C/svg%3E");
+  }
+  a { color: #000; }
+  a:focus-visible, [tabindex]:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+
+  /* ── Boot splash ─────────────────────────── */
+  #boot {
+    position: fixed; inset: 0; z-index: 100;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  #boot .splash {
+    border: 2px solid #000; border-radius: 10px;
+    box-shadow: 3px 3px 0 #000;
+    padding: 26px 44px;
+    font-size: 21px; font-weight: bold;
+    background: #fff;
+  }
+  #boot.hide { opacity: 0; transition: opacity 0.5s; pointer-events: none; }
+
+  /* ── Menu bar ────────────────────────────── */
+  .menubar {
+    position: sticky; top: 0; z-index: 10;
+    background: #fff; border-bottom: 2px solid #000;
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 4px 18px; padding: 9px 18px; font-size: 13px;
+  }
+  .menubar .brand { font-weight: bold; letter-spacing: 0.02em; }
+  .menubar a { text-decoration: none; }
+  .menubar a:hover { text-decoration: underline; }
+  .menubar .lang { margin-left: auto; white-space: nowrap; }
+  .menubar .lang .off { color: #767676; cursor: default; }
+
+  /* ── Desktop layout ──────────────────────── */
+  main { max-width: 860px; margin: 0 auto; padding: 56px 20px 80px; }
+  section { scroll-margin-top: 76px; margin: 0 0 64px; }
+  section:last-of-type { margin-bottom: 0; }
+  @media (min-width: 900px) {
+    section .window { width: 740px; }
+    section:nth-of-type(odd) .window { margin-left: 0; margin-right: auto; }
+    section:nth-of-type(even) .window { margin-left: auto; margin-right: 0; }
+    section#hero .window { width: 100%; margin: 0; }
+  }
+
+  /* ── Window ──────────────────────────────── */
+  .window {
+    border: 1px solid #000; background: #fff;
+    box-shadow: 2px 2px 0 #000;
+    position: relative;
+  }
+  .titlebar {
+    position: relative; height: 24px;
+    border-bottom: 1px solid #000; background: #fff;
+    cursor: pointer;
+  }
+  .stripes { position: absolute; left: 4px; right: 4px; top: 5px; bottom: 5px;
+    background: repeating-linear-gradient(to bottom, #000 0 1px, #fff 1px 3px); }
+  .closebox {
+    position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
+    width: 13px; height: 13px; background: #fff; border: 1px solid #000;
+    box-shadow: 0 0 0 3px #fff;
+  }
+  .zoombox {
+    position: absolute; right: 9px; top: 50%; transform: translateY(-50%);
+    width: 13px; height: 13px; background: #fff; border: 1px solid #000;
+    box-shadow: 0 0 0 3px #fff;
+  }
+  .zoombox::after {
+    content: ""; position: absolute; left: 1px; top: 1px;
+    width: 6px; height: 6px; border: 1px solid #000;
+  }
+  .wtitle {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    background: #fff; padding: 0 10px;
+    font-size: 13px; font-weight: bold; white-space: nowrap;
+  }
+  .wbody { padding: 40px 40px 44px; position: relative; }
+  @media (max-width: 600px) { .wbody { padding: 28px 18px 34px; } }
+  .growbox {
+    position: absolute; right: 0; bottom: 0;
+    width: 14px; height: 14px;
+    border-left: 1px solid #000; border-top: 1px solid #000;
+    background: #fff;
+  }
+  .growbox::after {
+    content: ""; position: absolute; right: 3px; bottom: 3px;
+    width: 6px; height: 6px; border-left: 1px solid #000; border-top: 1px solid #000;
+  }
+  .window.shaded .wbody { display: none; }
+  .window.shaded .titlebar { border-bottom: 0; }
+
+  /* ── Type ────────────────────────────────── */
+  p { margin: 0 0 22px; }
+  p:last-child { margin-bottom: 0; }
+  .lead { font-weight: bold; }
+  h2 { font-size: 17px; font-weight: bold; margin: 34px 0 10px; }
+  h2:first-child { margin-top: 0; }
+  .hero-body { text-align: center; padding-top: 56px; padding-bottom: 60px; }
+  .hero-q { font-size: clamp(28px, 6.4vw, 44px); font-weight: bold; line-height: 1.25; margin: 6px 0 28px; }
+  .center { text-align: center; }
+  .quiet { color: #767676; }
+
+  .btn { display: inline-block; padding: 3px; border: 1px solid #000; border-radius: 13px; text-decoration: none; background: #fff; }
+  .btn b { display: inline-block; border: 1px solid #000; border-radius: 9px; padding: 9px 26px; font-size: 14px; background: #fff; color: #000; }
+  .btn:hover b, .btn:active b { background: #000; color: #fff; }
+
+  .lv { width: 100%; border-collapse: collapse; margin: 8px 0 28px; }
+  .lv td { border-bottom: 1px solid #000; padding: 10px; font-size: 15px; }
+  .lv td:last-child { font-weight: bold; text-align: right; white-space: nowrap; }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr 1fr; margin: 30px 0 10px; border-top: 1px solid #000; }
+  .col { padding: 22px 18px 6px; border-left: 1px dotted #000; }
+  .col:first-child { border-left: 0; }
+  .col h2 { margin-top: 0; }
+  .col p { font-size: 14px; line-height: 1.6; }
+  @media (max-width: 680px) {
+    .cols { grid-template-columns: 1fr; }
+    .col { border-left: 0; border-top: 1px dotted #000; padding: 22px 4px 6px; }
+    .col:first-child { border-top: 0; }
+    .col p { font-size: 15px; }
+  }
+
+  .seg { display: flex; align-items: stretch; margin: 26px 0 6px; }
+  .seg .box { flex: 1; border: 1px solid #000; text-align: center; padding: 10px 4px 12px; background: #fff; }
+  .seg .box + .box { border-left: 0; }
+  .seg .num { font-size: 22px; font-weight: bold; line-height: 1.2; }
+  .seg .cap { font-size: 12px; }
+  .seg-note { font-size: 12px; text-align: center; margin: 6px 0 28px; }
+
+  .radio-row { display: flex; align-items: baseline; gap: 12px; cursor: pointer; margin: 26px 0 6px; }
+  .radio-row:first-of-type { margin-top: 6px; }
+  .dot { flex: 0 0 15px; width: 15px; height: 15px; border: 1px solid #000; border-radius: 50%; position: relative; top: 2px; }
+  .radio-row.sel .dot::after { content: ""; position: absolute; left: 3px; top: 3px; width: 7px; height: 7px; background: #000; border-radius: 50%; }
+  .radio-row .rname { font-weight: bold; font-size: 17px; }
+  .rdesc { margin: 0 0 0 27px; }
+
+  .cmp { width: 100%; border-collapse: collapse; margin: 6px 0 24px; }
+  .cmp th, .cmp td { border: 1px solid #000; padding: 9px 6px; font-size: 13px; text-align: center; }
+  .cmp th { font-weight: bold; }
+  .cmp td:first-child, .cmp th:first-child { text-align: left; padding-left: 10px; }
+  .cmp th:last-child, .cmp td:last-child { background: #000; color: #fff; }
+  .cb { display: inline-block; width: 14px; height: 14px; border: 1px solid #000; font-size: 11px; font-weight: bold; line-height: 13px; vertical-align: middle; }
+  .cb.on::before { content: "X"; }
+  .cmp td:last-child .cb { border-color: #fff; color: #fff; }
+  @media (max-width: 600px) { .cmp th, .cmp td { padding: 7px 3px; font-size: 11px; } }
+
+  .info { border-top: 1px solid #000; margin-top: 8px; }
+  .info .row { display: grid; grid-template-columns: 110px 1fr; gap: 14px; border-bottom: 1px solid #000; padding: 12px 4px; }
+  .info .k { font-weight: bold; font-size: 13px; }
+  .info .v { font-size: 15px; }
+  @media (max-width: 480px) { .info .row { grid-template-columns: 84px 1fr; } }
+
+  footer {
+    background: #fff; border-top: 2px solid #000;
+    text-align: center; font-size: 12px; padding: 22px 16px 30px;
+  }
+  footer p { margin: 0 0 4px; }
+</style>
+</head>
+<body>
+
+<div id="boot" title="Click to continue"><div class="splash">Welcome to ohwow.</div></div>
+
+<nav class="menubar" aria-label="Main">
+  <span class="brand">ohwow</span>
+  <a href="#who">Who</a>
+  <a href="#what">What</a>
+  <a href="#how">How</a>
+  <a href="#work">Together</a>
+  <a href="#why">Why</a>
+  <a href="#book">Book</a>
+  <a href="#contact">Contact</a>
+  <span class="lang">EN | <span class="off" title="繁體中文 — coming soon">繁</span></span>
+</nav>
+
+<main>
+
+  <section id="hero" aria-label="Introduction">
+    <div class="window">
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">ohwow</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="wbody hero-body">
+        <p class="hero-q">When was the last time someone said &ldquo;oh&nbsp;wow&rdquo; to your business?</p>
+        <p style="margin:0 0 4px;">A customer. An employee. Anyone.</p>
+        <p style="margin:0;">If you have to think hard, keep reading.</p>
+        <div class="growbox" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="who" aria-label="Who we are">
+    <div class="window">
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">Who we are</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="wbody">
+        <p class="lead">ohwow is a business design practice.</p>
+        <p>Not an agency. Not a consultancy.<br>ohwow is ohwow.</p>
+        <p>We design business.<br>But a business is not an org chart.<br>Not a strategy paper. Not a logo.</p>
+        <p>A business is what people experience of it.<br>Customers experience it. Employees experience it.<br>Everyone it touches experiences it.</p>
+        <p>So designing a business means designing its experience.<br>And every experience has one purpose:<br>happiness.</p>
+        <h2>ohwow.</h2>
+        <p>It is not a name. It is a reaction.</p>
+        <p>The sound people make when an experience exceeds what was expected.<br>Not satisfied. Not pleased.<br>Surprised by happiness.</p>
+        <p>That reaction is the entire business.</p>
+        <h2>Then, one.</h2>
+        <p>In Zen, one is not a number.<br>One is a discipline.<br>One focus. One purpose. One thing, done completely.</p>
+        <p>Most companies deliver three experiences.<br>One from the brand. One for customers. One for employees.<br>Three versions. Three directions. Nothing compounds.</p>
+        <p>ohwow.one exists for a single reason:<br>brand, customers, and people<br>delivering the same one experience.</p>
+        <p>That is the focus.<br>That is the passion.<br>That is the name.</p>
+        <div class="growbox" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="what" aria-label="What we do">
+    <div class="window">
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">What we do</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="wbody">
+        <p>Every business runs on three things: brand, customers, people.</p>
+        <p>This is not a metaphor. It is the P&amp;L.</p>
+        <table class="lv" aria-label="How the three decide the P&amp;L">
+          <tr><td>Customers</td><td>decide the revenue</td></tr>
+          <tr><td>People</td><td>decide the cost</td></tr>
+          <tr><td>Brand</td><td>decides the profit between them</td></tr>
+        </table>
+        <p>Most companies manage the three separately &mdash;<br>
+        and the numbers fight each other.<br>
+        Marketing promises what operations cannot deliver.<br>
+        Cost-cutting breaks the experience revenue depends on.<br>
+        The brand writes checks the people never cash.</p>
+        <p>Align the three, and the numbers stop fighting.<br>They compound.</p>
+        <p>That is the work. One framework. Three pillars.<br>Powered by AI. Done by hand.</p>
+        <div class="cols">
+          <div class="col">
+            <h2>Customer First</h2>
+            <p>Every customer hires a business to get a job done &mdash; and that job is rarely what the business thinks it sells. Customer First starts there: uncovering the real job, then designing the journey around it, touchpoint by touchpoint, so nothing is left to accident. And because every remarkable experience eventually becomes expected, the work never ends at design. The experience keeps being innovated &mdash; before the market demands it.</p>
+          </div>
+          <div class="col">
+            <h2>Employee Always</h2>
+            <p>Customers never experience the strategy. They experience the people. Employee Always builds the inside of the business, starting with culture &mdash; which begins with a person and survives through systems. Culture then needs a home: an effective organization, where the right people get the right things done right, together. And the work looks past today. A leadership pipeline builds the people who come after, so the experience outlives any single leader.</p>
+          </div>
+          <div class="col">
+            <h2>Brand Forever</h2>
+            <p>A brand is not a logo. It is a promise, kept over decades. Brand Forever holds three disciplines in one line: business strategy decides where the brand plays and why it wins. Brand communication makes the message believed inside before it is broadcast outside. Brand evolution keeps the brand moving without losing what made it matter. The experience stays. The how moves.</p>
+          </div>
+        </div>
+        <p class="center" style="margin-top:26px;"><strong>Three pillars. One wave. One experience.</strong></p>
+        <div class="growbox" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" aria-label="How we deliver">
+    <div class="window">
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">How we deliver</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="wbody">
+        <p>Most consultancies deliver the same way.<br>
+        Discovery phase. Workshops. A hundred-slide deck.<br>
+        The deck gets presented. The deck gets filed.<br>
+        Nothing changes.</p>
+        <p>ohwow reverses the delivery itself. Three reversals.</p>
+        <h2>Question the Brief.</h2>
+        <p>The stated problem is rarely the real problem.<br>
+        Engagements here do not start by answering the brief.<br>
+        They start by challenging it.<br>
+        The real insight always lives one level deeper.</p>
+        <h2>Escape the Obvious.</h2>
+        <p>The obvious answer is the crowded answer.<br>
+        Every competitor is already there, fighting with the same tools.<br>
+        Unforgettable experiences live in the opposite direction.</p>
+        <h2>Find What Is Already There.</h2>
+        <p>Before building anything new &mdash; look at what is present and ignored.<br>
+        The loyal customer. The staff who carry the culture. The asset nobody uses.<br>
+        The answer is already there. It always was.</p>
+        <p style="margin-top:34px;">Then, timing.<br>
+        Every move is matched to the business stage:</p>
+        <div class="seg" role="img" aria-label="Business stages: zero to establish, one to compound, infinity to reinvent">
+          <div class="box"><div class="num">0</div><div class="cap">Establish</div></div>
+          <div class="box"><div class="num">1</div><div class="cap">Compound</div></div>
+          <div class="box"><div class="num">&infin;</div><div class="cap">Reinvent</div></div>
+        </div>
+        <p class="seg-note">Revolutionary to establish. Evolutionary to compound. Revolutionary again to reinvent.</p>
+        <p>And AI runs through everything.<br>
+        It reads more than any team could.<br>
+        It forgets nothing between sessions.<br>
+        It works before, during, and after the engagement.</p>
+        <p>But AI is the instrument, not the craft.<br>
+        The judgment stays human.<br>
+        The best work is still done by hand.</p>
+        <div class="growbox" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" aria-label="How we work together">
+    <div class="window">
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">How we work together</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="wbody">
+        <p>Three ways in.</p>
+        <div class="radio-row" data-radio tabindex="0" role="button" aria-label="Select Workshop">
+          <span class="dot" aria-hidden="true"></span><span class="rname">Workshop.</span>
+        </div>
+        <p class="rdesc">One room. One real problem. The framework applied live.<br>
+        The fastest way to feel how Experience Wave thinking works &mdash;<br>
+        and leave with something usable.</p>
+        <div class="radio-row" data-radio tabindex="0" role="button" aria-label="Select Consultancy">
+          <span class="dot" aria-hidden="true"></span><span class="rname">Consultancy.</span>
+        </div>
+        <p class="rdesc">The full practice. Diagnosis to design to delivery.<br>
+        We work alongside leadership until the three experiences<br>
+        move as one.</p>
+        <div class="radio-row" data-radio tabindex="0" role="button" aria-label="Select Transfer">
+          <span class="dot" aria-hidden="true"></span><span class="rname">Transfer.</span>
+        </div>
+        <p class="rdesc">Build, operate, transfer.<br>
+        We build the capability, run it with your team,<br>
+        then hand it over &mdash; trained, embedded, owned in-house.<br>
+        The experience stays. We leave.</p>
+        <p class="center" style="margin-top:34px;"><strong>Start small. Go deep. Or own it.</strong></p>
+        <div class="growbox" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why" aria-label="Why ohwow">
+    <div class="window">
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">Why ohwow</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="wbody">
+        <p>Fair question. The market does not lack consultancies.</p>
+        <p>It lacks difference.</p>
+        <table class="cmp" aria-label="Coverage comparison of agency types and ohwow">
+          <tr><th></th><th>CX agency</th><th>Brand agency</th><th>HR firm</th><th>ohwow</th></tr>
+          <tr><td>Customer experience</td><td><span class="cb on"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb on"></span></td></tr>
+          <tr><td>Brand experience</td><td><span class="cb"></span></td><td><span class="cb on"></span></td><td><span class="cb"></span></td><td><span class="cb on"></span></td></tr>
+          <tr><td>Employee experience</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb on"></span></td><td><span class="cb on"></span></td></tr>
+          <tr><td>The same one experience</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb on"></span></td></tr>
+        </table>
+        <p>Each one capable. Each one alone.<br>
+        Three fixed silos. Still three experiences. Still misaligned.</p>
+        <p class="lead">The opposite of different is not the same.<br>It is indifferent.</p>
+        <p>Indifferent thinking produces indifferent experiences.<br>
+        Customers feel it, even when they cannot name it.</p>
+        <p>Alignment is not a service anyone else sells.<br>
+        It is the only thing we sell.</p>
+        <p>Twenty-plus years of practice, in rooms most firms never sit in together. A luxury house one week, a public service the next. Global banks and Web3 ventures. Automobiles, beauty, F&amp;B, telecom, insurance, pharma, media, NGOs, state-owned enterprises.</p>
+        <p>Different industries. Same disease: three experiences pulling in three directions.</p>
+        <p>One more difference. In 2018, ohwow published the first book on experience design in China &mdash; years before the market caught up to the conversation. And the person who diagnoses the business is the person who built the framework, and wrote the book on it. No juniors. No borrowed decks.</p>
+        <p class="center" style="margin-top:34px;"><strong>One practice. One craft. One experience.</strong></p>
+        <div class="growbox" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="book" aria-label="The book">
+    <div class="window">
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">The book &mdash; info</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="wbody">
+        <p class="lead" style="font-size:19px;">Riding the Experience Wave</p>
+        <div class="info">
+          <div class="row"><div class="k">Kind</div><div class="v">Box set. Six booklets.</div></div>
+          <div class="row"><div class="k">Pillars</div><div class="v">Customer First. Employee Always. Brand Forever.</div></div>
+          <div class="row"><div class="k">First wave</div><div class="v">2018 &mdash; the first book on experience design in China.</div></div>
+          <div class="row"><div class="k">This wave</div><div class="v">Eight years of practice later, the framework is complete.</div></div>
+          <div class="row"><div class="k">Promise</div><div class="v">How the three become one &mdash; and why the businesses that align them stop finding growth so hard.</div></div>
+          <div class="row"><div class="k">Status</div><div class="v quiet">Coming soon.</div></div>
+        </div>
+        <div class="growbox" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="healthcheck" aria-label="The health check">
+    <div class="window">
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">The health check</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="wbody center">
+        <p class="lead">Where do your three experiences stand today?</p>
+        <p>Three questions. Two minutes.<br>
+        An honest first look at whether your brand, customers, and people<br>
+        are riding the same wave &mdash; or pulling apart.</p>
+        <p style="margin-top:30px;"><a class="btn" href="https://experiencewave.github.io/healthcheck"><b>Take the Health Check</b></a></p>
+        <div class="growbox" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" aria-label="Contact">
+    <div class="window">
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">Contact</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="wbody center">
+        <p class="lead">Start the conversation.</p>
+        <p><a href="mailto:dc@ohwow.one">dc@ohwow.one</a><br>
+        Video conference. Based in Hong Kong.</p>
+        <div class="growbox" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p><strong>ohwow</strong> &mdash; a business design practice</p>
+  <p>&copy; 2003&ndash;2026 ohwow. All rights reserved.</p>
+</footer>
+
+<script>
+  (function () {
+    var boot = document.getElementById('boot');
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var seen = false;
+    try { seen = sessionStorage.getItem('booted') === '1'; } catch (e) {}
+    function dismiss() {
+      boot.classList.add('hide');
+      try { sessionStorage.setItem('booted', '1'); } catch (e) {}
+      setTimeout(function () { boot.remove(); }, 600);
+    }
+    if (reduced || seen || location.search.indexOf('noboot') > -1) {
+      boot.remove();
+    } else {
+      boot.addEventListener('click', dismiss);
+      setTimeout(dismiss, 1800);
+    }
+  })();
+
+  document.querySelectorAll('.titlebar').forEach(function (bar) {
+    bar.addEventListener('click', function () {
+      bar.parentElement.classList.toggle('shaded');
+    });
+  });
+
+  var rows = document.querySelectorAll('[data-radio]');
+  rows.forEach(function (row) {
+    function select() {
+      rows.forEach(function (r) { r.classList.remove('sel'); });
+      row.classList.add('sel');
+    }
+    row.addEventListener('click', select);
+    row.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(); }
+    });
+  });
+</script>
+
+</body>
+</html>
