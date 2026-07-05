@@ -92,7 +92,6 @@
   main {
     margin-left: 220px;
     padding: 56px 24px 90px;
-    max-width: 940px;
   }
   @media (max-width: 860px) { main { margin-left: 0; padding: 36px 18px 70px; } }
 
@@ -103,10 +102,11 @@
   .window {
     border: 1px solid #000; background: #fff;
     box-shadow: 2px 2px 0 #000;
-    width: 100%; max-width: 720px;
+    width: 75%; max-width: 1200px; min-width: 480px;
     margin: 0 auto;
     position: relative;
   }
+  @media (max-width: 860px) { .window { width: 100%; min-width: 0; } }
   .titlebar {
     position: relative; height: 24px;
     border-bottom: 1px solid #000; background: #fff;
