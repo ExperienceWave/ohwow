@@ -209,6 +209,33 @@
   .info .v { font-size: 15px; }
   @media (max-width: 480px) { .info .row { grid-template-columns: 84px 1fr; } }
 
+
+  /* ── More | Less mode ────────────────────── */
+  .c-less { display: none; text-align: center; padding: 22px 6px 26px; }
+  .c-less p { font-size: clamp(22px, 2.6vw, 34px); font-weight: bold; line-height: 1.45; margin: 0 0 36px; }
+  .c-less p:last-child { margin-bottom: 0; }
+  .c-less .quiet { color: #767676; }
+  body.mode-less .c-more { display: none; }
+  body.mode-less .c-less { display: block; }
+  .mode a { cursor: pointer; text-decoration: none; }
+  .mode a:hover { text-decoration: underline; }
+  .mode a.active { font-weight: bold; }
+
+
+  /* ── 繁 (Traditional Chinese) mode ──────── */
+  .c-zh { display: none; text-align: center; padding: 22px 6px 26px; }
+  .c-zh p { font-size: clamp(22px, 2.6vw, 34px); font-weight: bold; line-height: 1.55; margin: 0 0 36px; }
+  .c-zh p:last-child { margin-bottom: 0; }
+  .c-zh .quiet { color: #767676; }
+  .c-zh .seal { font-size: clamp(30px, 3.6vw, 46px); letter-spacing: 0.06em; }
+  body.mode-zh .c-more, body.mode-zh .c-less { display: none; }
+  body.mode-zh .c-zh { display: block; }
+  .i-zh { display: none; }
+  body.mode-zh .i-en { display: none; }
+  body.mode-zh span.i-zh { display: inline; }
+  body.mode-zh div.i-zh { display: block; }
+  body.mode-zh p.i-zh { display: block; }
+
   footer {
     background: #fff; border-top: 2px solid #000;
     text-align: center; font-size: 12px; padding: 22px 16px 30px;
@@ -218,25 +245,25 @@
   footer p { margin: 0 0 4px; }
 </style>
 </head>
-<body>
+<body class="mode-less">
 
-<div id="boot" title="Click to continue"><div class="splash">Welcome to ohwow.</div></div>
+<div id="boot" title="Click to continue"><div class="splash"><span class="i-en">Welcome to ohwow.</span><span class="i-zh">你好。</span></div></div>
 
 <aside class="toc">
   <div class="brand">ohwow</div>
   <nav aria-label="Table of contents">
-    <a href="#hero" data-toc><span class="n">00</span><span>Intro</span></a>
-    <a href="#who" data-toc><span class="n">01</span><span>Who</span></a>
-    <a href="#what" data-toc><span class="n">02</span><span>What</span></a>
-    <a href="#how" data-toc><span class="n">03</span><span>How</span></a>
-    <a href="#work" data-toc><span class="n">04</span><span>Together</span></a>
-    <a href="#why" data-toc><span class="n">05</span><span>Why</span></a>
-    <a href="#book" data-toc><span class="n">06</span><span>Book</span></a>
-    <a href="#healthcheck" data-toc><span class="n">07</span><span>Health Check</span></a>
-    <a href="#contact" data-toc><span class="n">08</span><span>Contact</span></a>
+    <a href="#hero" data-toc><span class="n">00</span><span><span class="i-en">Intro</span><span class="i-zh">開場</span></span></a>
+    <a href="#who" data-toc><span class="n">01</span><span><span class="i-en">Who</span><span class="i-zh">是誰</span></span></a>
+    <a href="#what" data-toc><span class="n">02</span><span><span class="i-en">What</span><span class="i-zh">做甚麼</span></span></a>
+    <a href="#how" data-toc><span class="n">03</span><span><span class="i-en">How</span><span class="i-zh">方法</span></span></a>
+    <a href="#work" data-toc><span class="n">04</span><span><span class="i-en">Together</span><span class="i-zh">合作</span></span></a>
+    <a href="#why" data-toc><span class="n">05</span><span><span class="i-en">Why</span><span class="i-zh">為何</span></span></a>
+    <a href="#book" data-toc><span class="n">06</span><span><span class="i-en">Book</span><span class="i-zh">書</span></span></a>
+    <a href="#healthcheck" data-toc><span class="n">07</span><span><span class="i-en">Health Check</span><span class="i-zh">檢測</span></span></a>
+    <a href="#contact" data-toc><span class="n">08</span><span><span class="i-en">Contact</span><span class="i-zh">聯絡</span></span></a>
   </nav>
   <div class="divider"></div>
-  <div class="lang">EN | <span class="off" title="繁體中文 — coming soon">繁</span></div>
+  <div class="lang mode"><a data-mode="more" role="button" tabindex="0">More</a> | <a data-mode="less" role="button" tabindex="0">Less</a> | <a data-mode="zh" role="button" tabindex="0">繁</a></div>
 </aside>
 
 <main>
@@ -245,19 +272,28 @@
     <div class="window">
       <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">ohwow</div><div class="zoombox" aria-hidden="true"></div></div>
       <div class="wbody hero-body">
+<div class="i-en">
         <p class="hero-q">When was the last time someone said &ldquo;oh&nbsp;wow&rdquo; to your business?</p>
         <p style="margin:0 0 4px;">A customer. An employee. Anyone.</p>
         <p style="margin:0;">If you have to think hard, keep reading.</p>
         <p style="margin-top:28px;"><a class="btn" href="#healthcheck"><b>Start with the Health Check</b></a></p>
-        <div class="growbox" aria-hidden="true"></div>
+        </div>
+<div class="i-zh">
+<p class="hero-q">上一次有人對你的品牌<br>說「oh wow」，是甚麼時候？</p>
+<p style="margin:0 0 4px;">客戶。員工。任何人。</p>
+<p style="margin:0;">想不起來？請往下看。</p>
+<p style="margin-top:28px;"><a class="btn" href="#healthcheck"><b>立即檢測</b></a></p>
+</div>
+<div class="growbox" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
   <section id="who" aria-label="Who we are">
     <div class="window">
-      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">Who we are</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle"><span class="i-en">Who we are</span><span class="i-zh">我們是誰</span></div><div class="zoombox" aria-hidden="true"></div></div>
       <div class="wbody">
+<div class="c-more">
         <p class="lead">ohwow is a business design practice.</p>
         <p>Not a conventional agency. Not a conventional consultancy.<br>It is a practice built around one belief:<br>every business is the experience people have of it.</p>
         <p>A business is not an org chart.<br>Not a strategy paper. Not a logo.</p>
@@ -273,15 +309,27 @@
         <p>ohwow.one exists for a single reason:<br>brand, customers, and people<br>delivering the same one experience.</p>
         <p>AI helps us see more, remember more, and test faster.<br>But the judgment, taste, and responsibility stay human.</p>
         <p>That is the focus.<br>That is the passion.<br>That is the name.</p>
-        <div class="growbox" aria-hidden="true"></div>
+        </div>
+<div class="c-less">
+<p>ohwow designs business.</p>
+<p>A business is what people experience of it.</p>
+<p>We design that experience.<br>For one purpose: happiness.</p>
+</div>
+<div class="c-zh">
+<p>ohwow 設計體驗。</p>
+<p>品牌，就是體驗。<br>客戶這樣記住你，<br>員工也這樣記住你。</p>
+<p>體驗設計得好，人就快樂。<br>人快樂，生意自然好。</p>
+</div>
+<div class="growbox" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
   <section id="what" aria-label="What we do">
     <div class="window">
-      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">What we do</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle"><span class="i-en">What we do</span><span class="i-zh">我們做甚麼</span></div><div class="zoombox" aria-hidden="true"></div></div>
       <div class="wbody">
+<div class="c-more">
         <p>Every business runs on three things: brand, customers, people.</p>
         <p>This is not a metaphor. It is the P&amp;L.</p>
         <table class="lv" aria-label="How the three decide the P&amp;L">
@@ -311,15 +359,29 @@
           </div>
         </div>
         <p class="center" style="margin-top:26px;"><strong>Three pillars. One wave. One experience.</strong></p>
-        <div class="growbox" aria-hidden="true"></div>
+        </div>
+<div class="c-less">
+<p>Customers decide the revenue.<br>People decide the cost.<br>Brand decides the profit.</p>
+<p>Most companies manage them separately.</p>
+<p>We align them.</p>
+<p>Customer First. Employee Always. Brand Forever.</p>
+</div>
+<div class="c-zh">
+<p>客戶決定收入。<br>員工決定成本。<br>品牌決定利潤。</p>
+<p>大多數公司，三樣分開管。</p>
+<p>我們，把三樣連成一線。</p>
+<p>客戶一位。員工一路。品牌一世。</p>
+</div>
+<div class="growbox" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
   <section id="how" aria-label="How we deliver">
     <div class="window">
-      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">How we deliver</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle"><span class="i-en">How we deliver</span><span class="i-zh">如何交付</span></div><div class="zoombox" aria-hidden="true"></div></div>
       <div class="wbody">
+<div class="c-more">
         <p>Most consultancies deliver the same way.<br>
         Discovery phase. Workshops. A hundred-slide deck.<br>
         The deck gets presented. The deck gets filed.<br>
@@ -353,15 +415,27 @@
         <p>But AI is the instrument, not the craft.<br>
         The judgment stays human.<br>
         The best work is still done by hand.</p>
-        <div class="growbox" aria-hidden="true"></div>
+        </div>
+<div class="c-less">
+<p>Question the Brief.<br>Escape the Obvious.<br>Find What Is Already There.</p>
+<p>AI does the reading.<br>The best work is still done by hand.</p>
+</div>
+<div class="c-zh">
+<p>先問：問題，真的是這個問題嗎？</p>
+<p>再想：人人都做的，不如不做。</p>
+<p>最後發現：答案，一直都在。</p>
+<p>AI 幫我們看得更多、記得更牢。<br>但最好的，始終出自人手。</p>
+</div>
+<div class="growbox" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
   <section id="work" aria-label="How we work together">
     <div class="window">
-      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">How we work together</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle"><span class="i-en">How we work together</span><span class="i-zh">如何合作</span></div><div class="zoombox" aria-hidden="true"></div></div>
       <div class="wbody">
+<div class="c-more">
         <p>Three ways in.</p>
         <div class="radio-row" data-radio tabindex="0" role="button" aria-label="Select Workshop">
           <span class="dot" aria-hidden="true"></span><span class="rname">Workshop.</span>
@@ -383,15 +457,25 @@
         then hand it over &mdash; trained, embedded, owned in-house.<br>
         The experience stays. We leave.</p>
         <p class="center" style="margin-top:34px;"><strong>Start small. Go deep. Or own it.</strong></p>
-        <div class="growbox" aria-hidden="true"></div>
+        </div>
+<div class="c-less">
+<p>Workshop. Consultancy. Transfer.</p>
+<p>Start small. Go deep. Or own it.</p>
+</div>
+<div class="c-zh">
+<p>工作坊。顧問。移交。</p>
+<p>先小試。再深耕。<br>最後，自己擁有。</p>
+</div>
+<div class="growbox" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
   <section id="why" aria-label="Why ohwow">
     <div class="window">
-      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">Why ohwow</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle"><span class="i-en">Why ohwow</span><span class="i-zh">為何 ohwow</span></div><div class="zoombox" aria-hidden="true"></div></div>
       <div class="wbody">
+<div class="c-more">
         <p>Fair question. The market does not lack consultancies.</p>
         <p>It lacks difference.</p>
         <table class="cmp" aria-label="Coverage comparison of agency types and ohwow">
@@ -412,15 +496,32 @@
         <p>Different industries. Same disease: three experiences pulling in three directions.</p>
         <p>One more difference. In 2018, ohwow published the first book on experience design in China &mdash; years before the market caught up to the conversation. And the person who diagnoses the business is the person who built the framework, and wrote the book on it.</p>
         <p class="center" style="margin-top:34px;"><strong>One practice. One craft. One experience.</strong></p>
-        <div class="growbox" aria-hidden="true"></div>
+        </div>
+<div class="c-less">
+<p>Everyone else fixes one experience.</p>
+<p>ohwow aligns all three.</p>
+<p>The opposite of different is not the same.<br>It is indifferent.</p>
+</div>
+<div class="c-zh">
+<p>別人，只做其中一種體驗。</p>
+<p>ohwow，三種一起對齊。</p>
+<p>「不同」的反面，<br>不是「相同」，是「無感」。</p>
+<p>無感，從何而來？<br>來自「同凡想」——<br>人人都這樣想，<br>體驗自然無人記住。</p>
+<p>三十年前，有人說：非同凡想。</p>
+<p>今天，我們說：</p>
+<p class="seal">畢同凡想。</p>
+<p>先終結平凡的想法，<br>才有不平凡的體驗。</p>
+</div>
+<div class="growbox" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
   <section id="book" aria-label="The book">
     <div class="window">
-      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">The book &mdash; info</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle"><span class="i-en">The book &mdash; info</span><span class="i-zh">書</span></div><div class="zoombox" aria-hidden="true"></div></div>
       <div class="wbody">
+<div class="c-more">
         <p class="lead" style="font-size:19px;">Riding the Experience Wave</p>
         <div class="info">
           <div class="row"><div class="k">Kind</div><div class="v">Box set. Six booklets.</div></div>
@@ -430,32 +531,56 @@
           <div class="row"><div class="k">Promise</div><div class="v">How the three become one &mdash; and why the businesses that align them stop finding growth so hard.</div></div>
           <div class="row"><div class="k">Status</div><div class="v quiet">Coming soon.</div></div>
         </div>
-        <div class="growbox" aria-hidden="true"></div>
+        </div>
+<div class="c-less">
+<p>Riding the Experience Wave.</p>
+<p>Six booklets. One box.</p>
+<p class="quiet">Coming soon.</p>
+</div>
+<div class="c-zh">
+<p>《體驗曲線》</p>
+<p>六本，一盒。</p>
+<p class="quiet">即將出版。</p>
+</div>
+<div class="growbox" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
   <section id="healthcheck" aria-label="The health check">
     <div class="window">
-      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">The health check</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle"><span class="i-en">The health check</span><span class="i-zh">體驗檢測</span></div><div class="zoombox" aria-hidden="true"></div></div>
       <div class="wbody center">
+<div class="i-en">
         <p class="lead">Where do your three experiences stand today?</p>
         <p>Three questions. Two minutes.<br>
         An honest first look at whether your brand, customers, and people<br>
         are riding the same wave &mdash; or pulling apart.</p>
         <p style="margin-top:30px;"><a class="btn" href="https://experiencewave.github.io/healthcheck"><b>Take the Health Check</b></a></p>
-        <div class="growbox" aria-hidden="true"></div>
+        </div>
+<div class="i-zh">
+<p class="lead">你的品牌、客戶、員工，<br>在同一道浪上嗎？</p>
+<p>三條問題。兩分鐘。<br>誠實一看：三種體驗是一同踏浪，<br>還是各有各游。</p>
+<p style="margin-top:30px;"><a class="btn" href="https://experiencewave.github.io/healthcheck"><b>立即檢測</b></a></p>
+</div>
+<div class="growbox" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
   <section id="contact" aria-label="Contact">
     <div class="window">
-      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle">Contact</div><div class="zoombox" aria-hidden="true"></div></div>
+      <div class="titlebar" title="Click to collapse"><div class="stripes"></div><div class="closebox" aria-hidden="true"></div><div class="wtitle"><span class="i-en">Contact</span><span class="i-zh">聯絡</span></div><div class="zoombox" aria-hidden="true"></div></div>
       <div class="wbody center">
+<div class="i-en">
         <p class="lead">Start the conversation.</p>
         <p><a href="mailto:dc@ohwow.one">dc@ohwow.one</a></p>
-        <div class="growbox" aria-hidden="true"></div>
+        </div>
+<div class="i-zh">
+<p class="lead">由一封電郵開始。</p>
+<p><a href="mailto:dc@ohwow.one">dc@ohwow.one</a></p>
+</div>
+<div class="growbox" aria-hidden="true"></div>
       </div>
     </div>
   </section>
@@ -463,8 +588,10 @@
 </main>
 
 <footer>
-  <p><strong>ohwow</strong> &mdash; a business design practice</p>
-  <p>&copy; 2003&ndash;2026 ohwow. All rights reserved.</p>
+  <div class="i-en"><p><strong>ohwow</strong> &mdash; a business design practice</p>
+  <p>&copy; 2003&ndash;2026 ohwow. All rights reserved.</p></div>
+  <div class="i-zh"><p><strong>ohwow</strong> &mdash; 設計生意，設計體驗。</p>
+  <p>&copy; 2003&ndash;2026 ohwow. 版權所有。</p></div>
 </footer>
 
 <script>
@@ -514,6 +641,24 @@
   }
   document.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  var modeLinks = document.querySelectorAll('[data-mode]');
+  function setMode(m) {
+    document.body.classList.remove('mode-less', 'mode-more', 'mode-zh');
+    document.body.classList.add('mode-' + m);
+    document.documentElement.lang = (m === 'zh') ? 'zh-Hant' : 'en';
+    modeLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('data-mode') === m); });
+    try { localStorage.setItem('ohwow-mode', m); } catch (e) {}
+  }
+  modeLinks.forEach(function (a) {
+    function go() { setMode(a.getAttribute('data-mode')); }
+    a.addEventListener('click', go);
+    a.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+  });
+  var savedMode = null;
+  try { savedMode = localStorage.getItem('ohwow-mode'); } catch (e) {}
+  setMode(savedMode === 'more' || savedMode === 'zh' ? savedMode : 'less');
+
 </script>
 
 </body>
